@@ -1,0 +1,33 @@
+{
+  "grammars": [
+    {
+      "name": "branescript",
+      "camelcase": "BraneScript",
+      "scope": "source.branescript",
+      "path": ".",
+      "file-types": null,
+      "injection-regex": "^branescript$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "Apachie 2.0",
+    "description": "Parser for BraneScript's text representation",
+    "authors": [
+      {
+        "name": "WireWhiz"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/WireWhiz/TreeSitterBraneScript"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
