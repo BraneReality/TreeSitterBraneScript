@@ -12,7 +12,7 @@ module.exports = grammar({
 
   rules: {
     source_file: $ => repeat($.module),
-    _definition: $ => choice( 
+    _definition: $ => choice(
       $.pipeline,
       $.function,
     ),
@@ -27,14 +27,16 @@ module.exports = grammar({
       "}"
     ),
     pipeline: $ => seq(
-      "pipe", 
-      field("id", $.identifier), 
+      "pipe",
+      field("id", $.identifier),
       field("sources", $.sourceList),
       "{",
-      $.pipelineStage,
-      repeat(seq(
-        repeat($.asyncOperation),
-        $.pipelineStage
+      field("stages", seq(
+        $.pipelineStage,
+        repeat(seq(
+          repeat($.asyncOperation),
+          $.pipelineStage
+        ))
       )),
       "}",
       field("sinks", $.sinkList)
@@ -51,48 +53,50 @@ module.exports = grammar({
       seq("hold", $.identifier, repeat(seq(",", $.identifier)))
     ),
     call: $ => seq(
-      $.sinkList,
+      $.sourceList,
       $._expression,
-      $.sourceList
+      $.sinkList
     ),
-
     sourceList: $ => seq(
       "(",
       optional(seq(
         $.sourceDef,
-        optional(seq(
+        optional(repeat(seq(
           ",",
           $.sourceDef
-        ))
+        )))
       )),
       ")"
     ),
-    sourceDef: $ => seq(
-      $.scopedIdentifier,
-      optional(seq(":", $.type)),
-    ),
-
-
+    sourceDef: $ => prec(5, seq(
+      field("mut", optional("mut")),
+      field("id", $.identifier),
+      optional(seq(":", field("type", $.type))),
+    )),
     sinkList: $ => seq(
       "(",
       optional(seq(
-        optional($.varDefPrefix),
         $.sinkDef,
-        optional(seq(
+        optional(repeat(seq(
           ",",
           $.sinkDef
-        ))
+        )))
       )),
       ")"
     ),
     sinkDef: $ => seq(
-      $.identifier,
+      field("id", $.identifier),
       ":",
-      $._expression,
+      field("value", $._expression),
     ),
-    varDefPrefix: $ => seq(
+    variableDefinition: $ => seq(
       'let',
-      optional('mut'),
+      field("mut", optional('mut')),
+      field("id", $.identifier),
+      optional(seq(
+        ":",
+        field("type", $.type)
+      ))
     ),
 
     pipelineStage: $ => seq(
@@ -111,15 +115,14 @@ module.exports = grammar({
       )),
       "}"
     ),
-    
-
-
     _expression: $ => choice(
       $._binary_expression,
       prec(1, $.number),
-      seq("(", $._expression, ")"),
+      prec(2, seq("(", $._expression, ")")),
+      prec(3, $.call),
       prec(1, $.scopedIdentifier),
-      $.assign
+      $.assign,
+      $.variableDefinition
     ),
     _binary_expression: $ => prec(1, choice(
       $.add,
@@ -129,36 +132,38 @@ module.exports = grammar({
     )),
 
     assign: $ => prec.right(0, seq(
-      $._expression,
+      field("left", $._expression),
       "=",
-      $._expression
+      field("right", $._expression)
     )),
     add: $ => prec.left(2, seq(
-      $._expression,
+      field("left", $._expression),
       "+",
-      $._expression
+      field("right", $._expression)
     )),
     sub: $ => prec.left(2, seq(
-      $._expression,
+      field("left", $._expression),
       "-",
-      $._expression
+      field("right", $._expression)
     )),
     mul: $ => prec.left(3, seq(
-      $._expression,
+      field("left", $._expression),
       "*",
-      $._expression
+      field("right", $._expression)
     )),
     div: $ => prec.left(3, seq(
-      $._expression,
+      field("left", $._expression),
       "/",
-      $._expression
-    )),  
+      field("right", $._expression)
+    )),
 
     scopedIdentifier: $ => prec.right(0, seq(
-      field("id", $.identifier), 
-      field("templateArgs", optional($.templateArguments)), 
+      choice(
+        field("id", $.identifier),
+        field("templateArgs", $.templateArguments),
+      ),
       field("child", optional(seq(
-        "::", 
+        "::",
         $.scopedIdentifier
       )))
     )),
@@ -175,7 +180,7 @@ module.exports = grammar({
     templateArgument: $ => choice(
       $.type
     ),
- 
+
     type: $ => seq(
       repeat(seq(
         '&',
