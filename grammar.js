@@ -15,15 +15,13 @@ module.exports = grammar({
     _definition: $ => choice(
       $.pipeline,
       $.function,
+      $.module,
     ),
     module: $ => seq(
       "mod",
       field("id", $.identifier),
       "{",
-      field("defs", repeat(choice(
-        $.module,
-        $._definition
-      ))),
+      field("defs", repeat($._definition)),
       "}"
     ),
     pipeline: $ => seq(

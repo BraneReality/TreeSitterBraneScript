@@ -38,3 +38,9 @@ dist/
 *.tar.gz
 *.tgz
 *.zip
+
+# CLI artifacts
+
+# This can be generated with tree-sitter generate
+src/ 
+genbuild/
