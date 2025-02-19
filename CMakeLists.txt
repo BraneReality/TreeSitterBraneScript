@@ -24,6 +24,13 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/src/parser.c"
                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
                    COMMENT "Generating parser.c")
 
+           add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/src/parserEnums.h"
+               DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/parser.c"
+               COMMAND "${TREE_SITTER_CLI}" generate
+                        --abi=${TREE_SITTER_ABI_VERSION}
+               WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+               COMMENT "Generating parser.c")
+
 add_library(tree-sitter-branescript src/parser.c)
 if(EXISTS src/scanner.c)
   target_sources(tree-sitter-branescript PRIVATE src/scanner.c)
