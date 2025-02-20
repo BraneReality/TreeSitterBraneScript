@@ -16,20 +16,17 @@ if(NOT ${TREE_SITTER_ABI_VERSION} MATCHES "^[0-9]+$")
 endif()
 
 find_program(TREE_SITTER_CLI tree-sitter DOC "Tree-sitter CLI")
+find_package (Python COMPONENTS Interpreter)
 
-add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/src/parser.c"
+set(PARSER_C "${CMAKE_CURRENT_SOURCE_DIR}/src/parser.c")
+set(ENUMS_H "${CMAKE_CURRENT_SOURCE_DIR}/src/parserEnums.c")
+add_custom_command(OUTPUT ${PARSER_C} ${ENUMS_H} 
                    DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/grammar.js"
-                   COMMAND "${TREE_SITTER_CLI}" generate
+                   COMMAND "$TREE_SITTER_CLI" generate
                             --abi=${TREE_SITTER_ABI_VERSION}
+                   COMMAND "${PYTHON_EXECUTABLE}" ${PARSER_C} ${ENUMS_H} ts_symbol_identifiers ts_field_identifiers
                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-                   COMMENT "Generating parser.c")
-
-           add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/src/parserEnums.h"
-               DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/parser.c"
-               COMMAND "${TREE_SITTER_CLI}" generate
-                        --abi=${TREE_SITTER_ABI_VERSION}
-               WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-               COMMENT "Generating parser.c")
+                   COMMENT "Generating parser.c & parser.h")
 
 add_library(tree-sitter-branescript src/parser.c)
 if(EXISTS src/scanner.c)
