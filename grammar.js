@@ -7,6 +7,7 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+
 module.exports = grammar({
     name: "branescript",
 
@@ -41,7 +42,7 @@ module.exports = grammar({
             $.block,
         ),
         callSig: $ => seq(
-            field("args", $.anonStructType),
+            field("input", $.anonStructType),
             optional(seq(
                 "->",
                 field("output", $.anonStructType)
