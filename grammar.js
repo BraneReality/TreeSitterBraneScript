@@ -60,8 +60,8 @@ module.exports = grammar({
             ")"
         ),
         call: $ => seq(
-            $._expression,
-            $.anonStruct
+            field("func", $._expression),
+            field("args", $.anonStruct)
         ),
         valueDef: $ => prec(5, seq(
             field("mut", optional("mut")),
@@ -86,7 +86,7 @@ module.exports = grammar({
         ),
         variableDefinition: $ => prec.left(4, seq(
             'let',
-            field("type", $.valueDef),
+            field("def", $.valueDef),
         )),
 
         pipelineStage: $ => seq(
