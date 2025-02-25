@@ -91,12 +91,7 @@ module.exports = grammar({
 
         pipelineStage: $ => seq(
             field("callSig", optional($.callSig)),
-            "{",
-            repeat(seq(
-                optional($._expression),
-                ";"
-            )),
-            "}"
+            field("body", $.block)
         ),
         block: $ => seq(
             "{",
