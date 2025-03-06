@@ -1,8 +1,10 @@
 fn main() {
-    let src_dir = std::path::Path::new("src");
+    let cargo_manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+    let project_root = std::path::Path::new(cargo_manifest_dir.as_str());
+    let src_dir = project_root.join("src");
 
     let mut c_config = cc::Build::new();
-    c_config.std("c11").include(src_dir);
+    c_config.std("c11").include(&src_dir);
 
     #[cfg(target_env = "msvc")]
     c_config.flag("-utf-8");
