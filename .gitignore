@@ -42,5 +42,4 @@ dist/
 # CLI artifacts
 
 # This can be generated with tree-sitter generate
-src/ 
 genbuild/
