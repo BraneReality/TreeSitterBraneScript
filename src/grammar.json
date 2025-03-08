@@ -869,15 +869,23 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
+          "type": "FIELD",
+          "name": "refOp",
           "content": {
-            "type": "SYMBOL",
-            "name": "refOp"
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "refOp"
+            }
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "scopedIdentifier"
+          "type": "FIELD",
+          "name": "id",
+          "content": {
+            "type": "SYMBOL",
+            "name": "scopedIdentifier"
+          }
         }
       ]
     },

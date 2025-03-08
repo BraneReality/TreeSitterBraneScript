@@ -175,8 +175,8 @@ module.exports = grammar({
             )),
         ),
         type: $ => seq(
-            repeat($.refOp),
-            $.scopedIdentifier
+            field('refOp', repeat($.refOp)),
+            field('id', $.scopedIdentifier)
         ),
 
         identifier: $ => /[a-zA-Z_]([a-zA-Z0-9_]*)/,

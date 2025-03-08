@@ -1118,20 +1118,27 @@
   {
     "type": "type",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "refOp",
-          "named": true
-        },
-        {
-          "type": "scopedIdentifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "id": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scopedIdentifier",
+            "named": true
+          }
+        ]
+      },
+      "refOp": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "refOp",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
