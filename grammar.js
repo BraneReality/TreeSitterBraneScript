@@ -60,7 +60,7 @@ module.exports = grammar({
             ")"
         ),
         call: $ => seq(
-            field("func", $._expression),
+            field("func", $.expression),
             field("args", $.anonStruct)
         ),
         valueDef: $ => prec(5, seq(
@@ -71,7 +71,7 @@ module.exports = grammar({
         memberInit: $ => seq(
             field("id", $.identifier),
             ":",
-            field("value", $._expression),
+            field("value", $.expression),
         ),
         anonStruct: $ => seq(
             "(",
@@ -96,17 +96,17 @@ module.exports = grammar({
         block: $ => seq(
             "{",
             field("expressions", repeat(seq(
-                $._expression,
+                $.expression,
                 ";"
             ))),
-            optional(field("return", $._expression)),
+            optional(field("return", $.expression)),
             "}"
         ),
-        _expression: $ => choice(
+        expression: $ => choice(
             $._binary_expression,
             prec(1, $.number),
             prec(1, $.scopedIdentifier),
-            prec(2, seq("(", $._expression, ")")),
+            prec(2, seq("(", $.expression, ")")),
             prec(2, $.anonStruct),
             prec(3, $.call),
             $.assign,
@@ -120,29 +120,29 @@ module.exports = grammar({
         )),
 
         assign: $ => prec.right(0, seq(
-            field("left", $._expression),
+            field("left", $.expression),
             "=",
-            field("right", $._expression)
+            field("right", $.expression)
         )),
         add: $ => prec.left(2, seq(
-            field("left", $._expression),
+            field("left", $.expression),
             "+",
-            field("right", $._expression)
+            field("right", $.expression)
         )),
         sub: $ => prec.left(2, seq(
-            field("left", $._expression),
+            field("left", $.expression),
             "-",
-            field("right", $._expression)
+            field("right", $.expression)
         )),
         mul: $ => prec.left(3, seq(
-            field("left", $._expression),
+            field("left", $.expression),
             "*",
-            field("right", $._expression)
+            field("right", $.expression)
         )),
         div: $ => prec.left(3, seq(
-            field("left", $._expression),
+            field("left", $.expression),
             "/",
-            field("right", $._expression)
+            field("right", $.expression)
         )),
         scopedIdentifierSegment: $ => choice(
             field("id", $.identifier),
