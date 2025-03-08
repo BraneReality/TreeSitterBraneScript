@@ -167,12 +167,15 @@ module.exports = grammar({
         templateArgument: $ => choice(
             $.type
         ),
-
-        type: $ => seq(
-            repeat(seq(
-                '&',
-                optional(choice('mut', 'const')),
+        refOp: $ => seq(
+            '&',
+            optional(choice(
+                field('mut', 'mut'),
+                field('const', 'const')
             )),
+        ),
+        type: $ => seq(
+            repeat($.refOp),
             $.scopedIdentifier
         ),
 

@@ -889,6 +889,32 @@
     }
   },
   {
+    "type": "refOp",
+    "named": true,
+    "fields": {
+      "const": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "const",
+            "named": false
+          }
+        ]
+      },
+      "mut": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "mut",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "scopedIdentifier",
     "named": true,
     "fields": {},
@@ -1094,9 +1120,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "refOp",
+          "named": true
+        },
         {
           "type": "scopedIdentifier",
           "named": true
