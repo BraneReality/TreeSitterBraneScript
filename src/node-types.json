@@ -891,17 +891,32 @@
   {
     "type": "scopedIdentifier",
     "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "scopedIdentifierSegment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "scopedIdentifierSegment",
+    "named": true,
     "fields": {
-      "child": {
+      "generic": {
         "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "::",
-            "named": false
+            "type": "identifier",
+            "named": true
           },
           {
-            "type": "scopedIdentifier",
+            "type": "templateArguments",
             "named": true
           }
         ]
@@ -912,16 +927,6 @@
         "types": [
           {
             "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "templateArgs": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "templateArguments",
             "named": true
           }
         ]

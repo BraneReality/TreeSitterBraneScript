@@ -721,60 +721,65 @@
         ]
       }
     },
-    "scopedIdentifier": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "CHOICE",
+    "scopedIdentifierSegment": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "id",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "generic",
+          "content": {
+            "type": "SEQ",
             "members": [
               {
-                "type": "FIELD",
-                "name": "id",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "identifier"
-                }
+                "type": "SYMBOL",
+                "name": "identifier"
               },
               {
-                "type": "FIELD",
-                "name": "templateArgs",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "templateArguments"
-                }
+                "type": "SYMBOL",
+                "name": "templateArguments"
               }
             ]
-          },
-          {
-            "type": "FIELD",
-            "name": "child",
-            "content": {
-              "type": "CHOICE",
+          }
+        }
+      ]
+    },
+    "scopedIdentifier": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "scopedIdentifierSegment"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "STRING",
-                      "value": "::"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "scopedIdentifier"
-                    }
-                  ]
+                  "type": "STRING",
+                  "value": "::"
                 },
                 {
-                  "type": "BLANK"
+                  "type": "SYMBOL",
+                  "name": "scopedIdentifierSegment"
                 }
               ]
+            },
+            {
+              "type": "BLANK"
             }
-          }
-        ]
-      }
+          ]
+        }
+      ]
     },
     "templateArguments": {
       "type": "SEQ",

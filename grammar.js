@@ -144,18 +144,17 @@ module.exports = grammar({
             "/",
             field("right", $._expression)
         )),
-
-        scopedIdentifier: $ => prec.right(0, seq(
-            choice(
-                field("id", $.identifier),
-                field("templateArgs", $.templateArguments),
-            ),
-            field("child", optional(seq(
+        scopedIdentifierSegment: $ => choice(
+            field("id", $.identifier),
+            field("generic", seq($.identifier, $.templateArguments)),
+        ),
+        scopedIdentifier: $ => seq(
+            $.scopedIdentifierSegment,
+            optional(seq(
                 "::",
-                $.scopedIdentifier
-            )))
-        )),
-
+                $.scopedIdentifierSegment
+            ))
+        ),
         templateArguments: $ => seq(
             "<",
             $.templateArgument,
