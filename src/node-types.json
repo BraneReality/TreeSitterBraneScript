@@ -912,7 +912,7 @@
         "required": false,
         "types": [
           {
-            "type": "identifier",
+            "type": "templateArguments",
             "named": true
           }
         ]
@@ -923,10 +923,6 @@
         "types": [
           {
             "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "templateArguments",
             "named": true
           }
         ]

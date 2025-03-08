@@ -737,7 +737,7 @@
           "members": [
             {
               "type": "FIELD",
-              "name": "generic",
+              "name": "id",
               "content": {
                 "type": "SYMBOL",
                 "name": "identifier"
@@ -745,7 +745,7 @@
             },
             {
               "type": "FIELD",
-              "name": "id",
+              "name": "generic",
               "content": {
                 "type": "SYMBOL",
                 "name": "templateArguments"

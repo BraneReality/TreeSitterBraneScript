@@ -146,7 +146,7 @@ module.exports = grammar({
         )),
         scopedIdentifierSegment: $ => choice(
             field("id", $.identifier),
-            seq(field("generic", $.identifier), field("id", $.templateArguments)),
+            seq(field("id", $.identifier), field("generic", $.templateArguments)),
         ),
         scopedIdentifier: $ => seq(
             $.scopedIdentifierSegment,

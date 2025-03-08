@@ -544,8 +544,8 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
   [4] =
     {field_input, 0},
   [5] =
-    {field_generic, 0},
-    {field_id, 1},
+    {field_generic, 1},
+    {field_id, 0},
   [7] =
     {field_id, 1},
     {field_mut, 0},
