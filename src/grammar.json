@@ -733,21 +733,25 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "generic",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "generic",
+              "content": {
                 "type": "SYMBOL",
                 "name": "identifier"
-              },
-              {
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "id",
+              "content": {
                 "type": "SYMBOL",
                 "name": "templateArguments"
               }
-            ]
-          }
+            }
+          ]
         }
       ]
     },

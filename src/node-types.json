@@ -908,8 +908,18 @@
     "named": true,
     "fields": {
       "generic": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "id": {
+        "multiple": false,
+        "required": true,
         "types": [
           {
             "type": "identifier",
@@ -917,16 +927,6 @@
           },
           {
             "type": "templateArguments",
-            "named": true
-          }
-        ]
-      },
-      "id": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
             "named": true
           }
         ]
