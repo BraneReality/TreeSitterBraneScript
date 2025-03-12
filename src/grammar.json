@@ -558,20 +558,42 @@
         "type": "CHOICE",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "add"
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "add"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "sub"
+                }
+              ]
+            }
           },
           {
-            "type": "SYMBOL",
-            "name": "sub"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "mul"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "div"
+            "type": "PREC",
+            "value": 2,
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "mul"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "div"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "mod"
+                }
+              ]
+            }
           }
         ]
       }
@@ -709,6 +731,35 @@
           {
             "type": "STRING",
             "value": "/"
+          },
+          {
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
+    },
+    "mod": {
+      "type": "PREC_LEFT",
+      "value": 3,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "%"
           },
           {
             "type": "FIELD",

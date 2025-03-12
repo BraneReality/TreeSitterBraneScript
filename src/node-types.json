@@ -222,6 +222,10 @@
           "named": true
         },
         {
+          "type": "mod",
+          "named": true
+        },
+        {
           "type": "mul",
           "named": true
         },
@@ -282,6 +286,32 @@
         ]
       },
       "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mod",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "right": {
         "multiple": false,
         "required": true,
         "types": [
@@ -631,6 +661,10 @@
         ]
       }
     }
+  },
+  {
+    "type": "%",
+    "named": false
   },
   {
     "type": "&",

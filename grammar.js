@@ -113,10 +113,8 @@ module.exports = grammar({
             $.variableDefinition
         ),
         _binary_expression: $ => prec(1, choice(
-            $.add,
-            $.sub,
-            $.mul,
-            $.div
+            prec(1, choice($.add, $.sub)),
+            prec(2, choice($.mul, $.div, $.mod))
         )),
 
         assign: $ => prec.right(0, seq(
@@ -142,6 +140,11 @@ module.exports = grammar({
         div: $ => prec.left(3, seq(
             field("left", $.expression),
             "/",
+            field("right", $.expression)
+        )),
+        mod: $ => prec.left(3, seq(
+            field("left", $.expression),
+            "%",
             field("right", $.expression)
         )),
         scopedIdentifierSegment: $ => choice(
