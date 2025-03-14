@@ -104,6 +104,7 @@ module.exports = grammar({
         ),
         expression: $ => choice(
             $.binary_operator,
+            $.unary_operator,
             $.number,
             prec(17, $.scopedIdentifier),
             prec(18, seq("(", $.expression, ")")),
@@ -112,10 +113,16 @@ module.exports = grammar({
             $.assign,
             $.variableDefinition
         ),
+        unary_operator: $ => prec(11, seq(
+            field("operator", choice(
+                "&", "*", "-", "!", "~"
+            )),
+            field("expression", $.expression)
+        )),
         binary_operator: $ => prec.left(3, seq(
             field("left", $.expression),
             field("operator", choice(
-                prec(11, choice(".", "->")),
+                prec(12, choice(".", "->")),
                 prec(10, choice("*", "/", "%")),
                 prec(9, choice("+", "-")),
                 prec(8, choice("<<", ">>")),
