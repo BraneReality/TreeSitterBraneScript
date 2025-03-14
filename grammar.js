@@ -103,48 +103,41 @@ module.exports = grammar({
             "}"
         ),
         expression: $ => choice(
-            $._binary_expression,
-            prec(1, $.number),
-            prec(1, $.scopedIdentifier),
-            prec(2, seq("(", $.expression, ")")),
-            prec(2, $.anonStruct),
-            prec(3, $.call),
+            $.binary_operator,
+            $.number,
+            prec(17, $.scopedIdentifier),
+            prec(18, seq("(", $.expression, ")")),
+            prec(19, $.anonStruct),
+            prec(20, $.call),
             $.assign,
             $.variableDefinition
         ),
-        _binary_expression: $ => prec(1, choice(
-            prec.left(1, choice(seq(
-                field("left", $.expression),
-                field("operator", "+"),
-                field("right", $.expression)
-            ), seq(
-                field("left", $.expression),
-                field("operator", "-"),
-                field("right", $.expression)
-            ))),
-            prec.left(2, choice(seq(
-                field("left", $.expression),
-                field("operator", "*"),
-                field("right", $.expression)
-            ), seq(
-                field("left", $.expression),
-                field("operator", "/"),
-                field("right", $.expression)
-            ), seq(
-                field("left", $.expression),
-                field("operator", "%"),
-                field("right", $.expression)
-            )))
+        binary_operator: $ => prec.left(3, seq(
+            field("left", $.expression),
+            field("operator", choice(
+                prec(11, choice(".", "->")),
+                prec(10, choice("*", "/", "%")),
+                prec(9, choice("+", "-")),
+                prec(8, choice("<<", ">>")),
+                prec(7, choice("<", "<=", ">=", ">")),
+                prec(6, choice("==", "!=")),
+                prec(5, "&"),
+                prec(4, "^"),
+                prec(3, "|"),
+                prec(2, "&&"),
+                prec(1, "||"),
+            )),
+            field("right", $.expression)
         )),
         assign: $ => prec.right(0, seq(
             field("left", $.expression),
             "=",
             field("right", $.expression)
         )),
-        scopedIdentifierSegment: $ => choice(
+        scopedIdentifierSegment: $ => prec.right(16, choice(
             field("id", $.identifier),
             seq(field("id", $.identifier), field("generic", $.templateArguments)),
-        ),
+        )),
         scopedIdentifier: $ => seq(
             $.scopedIdentifierSegment,
             optional(seq(
