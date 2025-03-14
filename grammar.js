@@ -113,38 +113,32 @@ module.exports = grammar({
             $.variableDefinition
         ),
         _binary_expression: $ => prec(1, choice(
-            prec(1, choice($.add, $.sub)),
-            prec(2, choice($.mul, $.div, $.mod))
+            prec.left(1, choice(seq(
+                field("left", $.expression),
+                field("operator", "+"),
+                field("right", $.expression)
+            ), seq(
+                field("left", $.expression),
+                field("operator", "-"),
+                field("right", $.expression)
+            ))),
+            prec.left(2, choice(seq(
+                field("left", $.expression),
+                field("operator", "*"),
+                field("right", $.expression)
+            ), seq(
+                field("left", $.expression),
+                field("operator", "/"),
+                field("right", $.expression)
+            ), seq(
+                field("left", $.expression),
+                field("operator", "%"),
+                field("right", $.expression)
+            )))
         )),
-
         assign: $ => prec.right(0, seq(
             field("left", $.expression),
             "=",
-            field("right", $.expression)
-        )),
-        add: $ => prec.left(2, seq(
-            field("left", $.expression),
-            "+",
-            field("right", $.expression)
-        )),
-        sub: $ => prec.left(2, seq(
-            field("left", $.expression),
-            "-",
-            field("right", $.expression)
-        )),
-        mul: $ => prec.left(3, seq(
-            field("left", $.expression),
-            "*",
-            field("right", $.expression)
-        )),
-        div: $ => prec.left(3, seq(
-            field("left", $.expression),
-            "/",
-            field("right", $.expression)
-        )),
-        mod: $ => prec.left(3, seq(
-            field("left", $.expression),
-            "%",
             field("right", $.expression)
         )),
         scopedIdentifierSegment: $ => choice(
